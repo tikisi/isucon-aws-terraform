@@ -1,3 +1,4 @@
+/*
 data "aws_ami" "standalone_ami" {
   most_recent      = true
   owners           = [var.standalone_ami_owner]
@@ -12,3 +13,4 @@ data "aws_ami" "standalone_ami" {
     values = [format("%s-*", var.standalone_ami_name)]
   }
 }
+*/

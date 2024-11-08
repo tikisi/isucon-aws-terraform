@@ -4,7 +4,8 @@ resource "aws_key_pair" "participant-key" {
 }
 
 resource "aws_instance" "participant-instance" {
-  ami = data.aws_ami.standalone_ami.id
+  //ami = data.aws_ami.standalone_ami.id
+  ami = "ami-00acaccebe03b5bed"
   count = length(var.ec2_members)
   instance_type = var.ec2_instance_type
   subnet_id = var.subnet_id

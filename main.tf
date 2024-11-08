@@ -1,6 +1,11 @@
 terraform {
   required_version = ">= 0.13.5"
 
+  backend "s3" {
+    bucket = "tikisi-terraform-state"
+    key    = "isucon-aws-terraform.tfstate"
+    region = "ap-northeast-1"
+  }
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -13,10 +18,6 @@ provider "aws" {
   region = "ap-northeast-1"
 }
 
-provider "aws" {
-  region = "ap-northeast-1"
-  alias  = "ap_northeast"
-}
 
 module "vpc" {
   source       = "./modules/vpc"
@@ -39,8 +40,8 @@ module "sg" {
 
 module "participant-ec2" {
   source               = "./modules/ec2"
-  standalone_ami_name  = var.standalone_ami_name
-  standalone_ami_owner = var.standalone_ami_owner
+  //standalone_ami_name  = var.standalone_ami_name
+  //standalone_ami_owner = var.standalone_ami_owner
   subnet_id            = module.subnet.subnet_id
   security_group_id    = module.sg.security_group_id
   ec2_members          = var.ec2_members
