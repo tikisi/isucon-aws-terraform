@@ -2,5 +2,7 @@
 terraform.tfstate
 terraform.tfstate.backup
 
+modules/credential/*
+
 # custom variables file
 terraform.tfvars.json

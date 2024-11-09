@@ -1,11 +1,18 @@
 resource "aws_key_pair" "participant-key" {
   key_name   = "isucon_key"
-  public_key = file("./modules/credential/isucon_id_ed25519.pub")
+  public_key = file("./modules/credential/tanaka.pub")
+}
+
+locals {
+  ssh_key_files = fileset("./modules/credential/", "*.pub")
+  ssh_keys = [for file in local.ssh_key_files: file("./modules/credential/${file}")]
+  user_data = templatefile("./modules/ec2/cloud-init.tpl", {
+    ssh_authorized_keys = local.ssh_keys
+  })
 }
 
 resource "aws_instance" "participant-instance" {
-  //ami = data.aws_ami.standalone_ami.id
-  ami = "ami-00acaccebe03b5bed"
+  ami = var.ami_id
   count = length(var.ec2_members)
   instance_type = var.ec2_instance_type
   subnet_id = var.subnet_id
@@ -18,6 +25,8 @@ resource "aws_instance" "participant-instance" {
     volume_size           = var.ec2_volume_size
     delete_on_termination = true
   }
+
+  user_data = local.user_data
 
   tags = {
     Name = format("isucon-%s", lookup(var.ec2_members, count.index))
