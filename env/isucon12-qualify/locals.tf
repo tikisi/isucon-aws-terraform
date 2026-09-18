@@ -24,6 +24,7 @@ locals {
     "2" = "worker-03"
     "3" = "benchmark-instance"
   }
-  ec2_instance_type = "t2.micro"
+  ec2_instance_type = "t2.micro" # c5.large
   ec2_volume_size   = 20
 }
+
