@@ -20,7 +20,7 @@ env/
 
 ## 準備
 
-- Terraform 1.16.3 以上（2.0 未満）、Git、Python 3 と AWS の認証情報を用意してください。
+- Terraform 1.16.3 以上、Git、Python 3 と AWS の認証情報を用意してください。
 - リージョンは `ap-northeast-1`、AZ は `ap-northeast-1a` です。
 - 各環境の `main.tf` にある S3 backend の `bucket` を、自分が利用する既存バケットに変更してください。state の `key` は環境ごとに分けています。
 - SSH 鍵がなければ、次のコマンドで作成します。
@@ -31,7 +31,7 @@ ssh-keygen -t ed25519 -C "isucon_key" -f ~/.ssh/isucon_id_ed25519
 
 ## 環境の構築
 
-以下は予選環境の例です。
+以下はISUCON12 予選環境の例です。
 
 ```sh
 cd env/isucon12-qualify
@@ -51,8 +51,6 @@ AMI の存在と、インスタンスタイプ・容量がその大会に適し�
 | `ssh_authorized_keys` | 同じディレクトリの `authorized_keys` から自動で読み込む公開鍵のリスト |
 | `access_cidr_blocks` | 接続元 CIDR。複数の場合はカンマ区切り |
 
-共通モジュールの `variables.tf` は、各環境の設定を受け取るインターフェースとして維持しています。
-
 公開鍵は各環境の `authorized_keys` に 1 行ずつ登録してください。少なくとも 1 つ必要です。
 このファイルは Git 管理対象外で、空行・`#` で始まるコメント行・重複は読み込み時に除外します。
 
@@ -62,8 +60,6 @@ ssh-ed25519 AAAA... member-b
 ```
 
 すべての鍵を同列に扱い、cloud-init で AMI のデフォルトユーザーに登録します。
-AWS キーペアは作成しません。cloud-init の SSH 公開鍵登録に対応した AMI を使用してください。
-鍵の登録は初回起動時を想定しています。ファイルを変更しただけで、起動済みインスタンスの鍵が追加・削除されるとは限りません。
 `access_cidr_blocks` は SSH・HTTP・HTTPS・MySQL の許可元に使われます。
 
 ```sh
@@ -78,22 +74,6 @@ terraform apply
 terraform destroy
 ```
 
-リポジトリ直下からは `terraform -chdir=env/isucon12-qualify plan` のようにも実行できます。
-
-
-## 既存環境からの移行
-
-以前の S3 state のキーは `isucon-aws-terraform.tfstate` です。
-新しいキーで初期化すると新規環境として扱われるため、既存環境を引き継ぐ場合は、先に state のバックアップを取得してください。
-
-1. 引き継ぎ先の環境の backend `key` を一時的に旧キーにして `terraform init` を実行します。
-2. `terraform state pull > migration-backup.tfstate` でバックアップを保存します。
-3. backend `key` をその環境の新しいキーに戻し、`terraform init -migrate-state` で移行します。
-4. 既存の公開鍵を `authorized_keys`、その他の設定を `locals.tf` に移し、不要になった `terraform.tfvars` を取り除いてから、`terraform plan` で差分を確認します。
-
-AWS キーペアリソースと EC2 の `key_name` を削除しています。既存環境への適用では、キーペア削除や EC2 の置き換えが発生する可能性があるため、plan を確認してください。
-SG 名や user data の変更も確認してください。
-同じ旧 state を複数の環境に引き継がないでください。
 
 ## 環境の追加と検証
 
