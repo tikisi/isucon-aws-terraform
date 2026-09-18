@@ -29,15 +29,6 @@ env/
 ssh-keygen -t ed25519 -C "isucon_key" -f ~/.ssh/isucon_id_ed25519
 ```
 
-## バージョン管理
-
-Terraform の利用バージョンは `.terraform-version`（1.16.3）、許容範囲は各環境の `required_version` で指定します。
-AWS Provider は `~> 6.65`（6.65 以上、7.0 未満）とし、実際に使うバージョンは各環境の `.terraform.lock.hcl` で固定します。
-既存の初期化済み環境で Provider を更新する場合は `terraform init -upgrade` を実行してください。
-
-AWS Provider 3.x からの更新を含むため、既存リソースがある場合は state をバックアップし、[公式の移行ガイド](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/guides/version-6-upgrade)（4.x・5.x のガイドへのリンクあり）と `terraform plan` の差分を確認してください。
-6.x では EC2 の `user_data` の state 保存形式も変わっています。
-
 ## 環境の構築
 
 以下は予選環境の例です。
