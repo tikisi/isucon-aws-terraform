@@ -80,7 +80,7 @@ terraform destroy
 ## 環境の追加と検証
 
 `env/` 配下の環境をコピーし、`main.tf` の backend のキーと、`locals.tf` のSG 名・AMI 設定を変更します。
-`.terraform/` と state はコピーしないでください。
+指定する AMI は、[matsuu/aws-isucon](https://github.com/matsuu/aws-isucon/tree/main) の大会別環境を参考に選択してください。
 
 リポジトリ直下でフォーマットし、初期化後に各環境を検証します。
 
