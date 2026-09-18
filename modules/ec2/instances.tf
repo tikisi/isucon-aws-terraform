@@ -5,20 +5,20 @@ resource "aws_key_pair" "participant-key" {
 
 locals {
   ssh_key_files = fileset("./modules/credential/", "*.pub")
-  ssh_keys = [for file in local.ssh_key_files: file("./modules/credential/${file}")]
+  ssh_keys      = [for file in local.ssh_key_files : file("./modules/credential/${file}")]
   user_data = templatefile("./modules/ec2/cloud-init.tpl", {
     ssh_authorized_keys = local.ssh_keys
   })
 }
 
 resource "aws_instance" "participant-instance" {
-  ami = var.ami_id
-  count = length(var.ec2_members)
-  instance_type = var.ec2_instance_type
-  subnet_id = var.subnet_id
+  ami                         = data.ami_id.standalone_ami.id
+  count                       = length(var.ec2_members)
+  instance_type               = var.ec2_instance_type
+  subnet_id                   = var.subnet_id
   associate_public_ip_address = true
-  key_name = aws_key_pair.participant-key.id
-  security_groups = [var.security_group_id]
+  key_name                    = aws_key_pair.participant-key.id
+  security_groups             = [var.security_group_id]
 
   root_block_device {
     volume_type           = "standard"
