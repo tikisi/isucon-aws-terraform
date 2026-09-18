@@ -1,5 +1,7 @@
 # isucon-aws-terraform
 
+このリポジトリは [momotaro98/isucon-aws-terraform](https://github.com/momotaro98/isucon-aws-terraform) の fork です。
+
 ISUCON の練習環境を AWS EC2 に構築する Terraform 設定です。
 共通のリソース定義を `modules/`、大会ごとの実行単位を `env/` に配置します。
 
