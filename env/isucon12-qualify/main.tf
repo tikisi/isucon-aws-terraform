@@ -7,6 +7,10 @@ terraform {
     region = "ap-northeast-1"
   }
   required_providers {
+    external = {
+      source  = "hashicorp/external"
+      version = "~> 2.3"
+    }
     aws = {
       source  = "hashicorp/aws"
       version = "~> 6.65"
@@ -16,6 +20,10 @@ terraform {
 
 provider "aws" {
   region = "ap-northeast-1"
+
+  default_tags {
+    tags = local.common_tags
+  }
 }
 
 

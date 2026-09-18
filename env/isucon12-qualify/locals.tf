@@ -1,4 +1,9 @@
 locals {
+  common_tags = {
+    RepositoryURL = "https://github.com/tikisi/isucon-aws-terraform"
+    CommitHash    = data.external.git.result.commit_hash
+  }
+
   standalone_ami_name  = "isucon12-qualify"
   standalone_ami_owner = "839726181030"
 

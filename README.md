@@ -20,7 +20,7 @@ env/
 
 ## 準備
 
-- Terraform 1.16.3 以上（2.0 未満）と AWS の認証情報を用意してください。
+- Terraform 1.16.3 以上（2.0 未満）、Git、Python 3 と AWS の認証情報を用意してください。
 - リージョンは `ap-northeast-1`、AZ は `ap-northeast-1a` です。
 - 各環境の `main.tf` にある S3 backend の `bucket` を、自分が利用する既存バケットに変更してください。state の `key` は環境ごとに分けています。
 - SSH 鍵がなければ、次のコマンドで作成します。
@@ -88,6 +88,21 @@ terraform destroy
 ```
 
 リポジトリ直下からは `terraform -chdir=env/isucon12-qualify plan` のようにも実行できます。
+
+## リソースのタグ
+
+AWS Provider の `default_tags` により、タグ対応リソースに次のタグを付けます。
+
+- `RepositoryURL`: `locals.tf` の `common_tags` に設定したリポジトリ URL
+- `CommitHash`: plan 時に Git の `HEAD` から自動取得したコミットハッシュ
+
+VPC、サブネット、ルートテーブル、Internet Gateway、セキュリティグループ、EC2 とルート EBS に適用されます。
+ルート・ルートテーブル関連付け・現在使用する `aws_security_group_rule` にはタグ設定がないため対象外です。EC2 が自動作成する ENI もこの設定では対象外です。
+既存の `Name` タグは維持します。次回 apply では既存リソースのタグも更新されます。
+
+Git checkout 内で実行してください（worktree や detached HEAD も利用可能）。Git 情報は `external` Provider と `scripts/git_metadata.py` で取得するため、Git と Python 3 が必要です。
+未コミットの変更や Git 管理対象外の公開鍵はコミットハッシュに含まれません。再現性が必要な変更はコミットしてから plan してください。
+保存した plan を apply する場合、タグにはその plan 作成時のハッシュが使われます。
 
 ## 既存環境からの移行
 
