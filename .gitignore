@@ -1,8 +1,16 @@
-.terraform/*
-terraform.tfstate
-terraform.tfstate.backup
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
 
 modules/credential/*
+!modules/credential/.gitkeep
 
-# custom variables file
+# Local environment settings
+terraform.tfvars
 terraform.tfvars.json
+*.auto.tfvars
+*.auto.tfvars.json
+
+# Environment SSH public keys
+/env/*/authorized_keys

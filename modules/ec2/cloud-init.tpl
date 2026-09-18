@@ -1,5 +1,2 @@
 #cloud-config
-ssh_authorized_keys:
-%{ for key in ssh_authorized_keys ~}
-  - ${key}
-%{ endfor ~}
+${yamlencode({ ssh_authorized_keys = ssh_authorized_keys })}
