@@ -2,10 +2,12 @@ terraform {
   required_version = ">= 1.16.3, < 2.0.0"
 
   backend "s3" {
-    bucket = "tikisi-terraform-state"
-    key    = "isucon-aws-terraform/isucon12-qualify/terraform.tfstate"
-    region = "ap-northeast-1"
+    bucket       = "tikisi-terraform-state"
+    key          = "isucon-aws-terraform/isucon12-qualify/terraform.tfstate"
+    region       = "ap-northeast-1"
+    use_lockfile = true
   }
+
   required_providers {
     external = {
       source  = "hashicorp/external"
