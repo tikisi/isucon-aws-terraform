@@ -5,3 +5,11 @@ output "instance_public_ips" {
     instance.tags["Name"] => instance.public_ip
   }
 }
+
+output "instance_private_ips" {
+  description = "Map of instance names to private IP addresses"
+  value = {
+    for instance in aws_instance.participant-instance :
+    instance.tags["Name"] => instance.private_ip
+  }
+}
