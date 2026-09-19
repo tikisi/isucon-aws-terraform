@@ -4,11 +4,11 @@ locals {
     CommitHash    = data.external.git.result.commit_hash
   }
 
-  standalone_ami_name  = "isucon12-qualify"
+  standalone_ami_name  = "isucon14"
   standalone_ami_owner = "839726181030"
 
   vpc_net_mask        = "10.1.0.0"
-  security_group_name = "isucon12-qualify_sg"
+  security_group_name = "isucon14"
 
   # 1 行に 1 公開鍵。空行・コメント行・重複は除外します。
   ssh_authorized_keys = distinct([
@@ -24,7 +24,7 @@ locals {
     "2" = "worker-03"
     "3" = "bench"
   }
-  ec2_instance_type = "t3.small" # c5.large
+  ec2_instance_type = "c5.large" # t3.small
   ec2_volume_size   = 20
 }
 
