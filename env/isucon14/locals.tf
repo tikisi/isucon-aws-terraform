@@ -17,14 +17,14 @@ locals {
   ])
   access_cidr_blocks = "0.0.0.0/0" # 複数の場合はカンマ区切りで指定
 
-  # ベンチマーカーを含む 4 台を同じ AMI から作成します。
+  # ベンチマーカーと計測サーバーを含む 5 台を同じ AMI から作成します。
   ec2_members = {
     "0" = "worker-01"
     "1" = "worker-02"
     "2" = "worker-03"
     "3" = "bench"
+    "4" = "measure"
   }
   ec2_instance_type = "c5.large" # t3.small
   ec2_volume_size   = 20
 }
-
