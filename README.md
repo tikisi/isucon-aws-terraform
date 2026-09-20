@@ -61,7 +61,13 @@ ssh-ed25519 AAAA... member-a
 ssh-ed25519 AAAA... member-b
 ```
 
-すべての鍵を同列に扱い、cloud-init で AMI のデフォルトユーザーに登録します。
+すべての鍵を同列に扱い、cloud-init で AMI のデフォルトユーザーと `isucon` ユーザーに登録します。
+そのため、インスタンス作成後は `isucon` ユーザーへ直接 SSH 接続できます。
+
+```sh
+ssh -i ~/.ssh/isucon_id_ed25519 isucon@<EC2 のパブリック IP アドレス>
+```
+
 `access_cidr_blocks` は SSH・HTTP・HTTPS・MySQL の許可元に使われます。
 
 ```sh

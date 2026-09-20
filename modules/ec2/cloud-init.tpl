@@ -1,2 +1,10 @@
 #cloud-config
-${yamlencode({ ssh_authorized_keys = ssh_authorized_keys })}
+${yamlencode({
+  users = [
+    "default",
+    {
+      name                = "isucon"
+      ssh_authorized_keys = ssh_authorized_keys
+    }
+  ]
+})}
