@@ -14,7 +14,7 @@ resource "aws_instance" "participant-instance" {
   vpc_security_group_ids      = [var.security_group_id]
 
   root_block_device {
-    volume_type           = "standard"
+    volume_type           = "gp3"
     volume_size           = var.ec2_volume_size
     delete_on_termination = true
   }
