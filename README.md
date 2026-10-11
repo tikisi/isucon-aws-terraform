@@ -13,7 +13,9 @@ modules/
     subnet/
     vpc/
 env/
+    isucon11-qualify/
     isucon12-qualify/
+    isucon14/
 ```
 
 各環境が独立した VPC・サブネット・セキュリティグループ・EC2 を作成します。
