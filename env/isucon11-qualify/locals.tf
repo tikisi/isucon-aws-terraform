@@ -23,6 +23,7 @@ locals {
     "1" = "worker-02"
     "2" = "worker-03"
     "3" = "bench"
+    "4" = "measure"
   }
   ec2_instance_type = "c5.large"
   ec2_volume_size   = 20
